@@ -113,7 +113,7 @@ const AllProperties = () => {
         {allProperties.map((property) => (
           <PropertyCard
             key={property._id}
-            id={property.id}
+            id={property._id}
             title={property.title}
             price={property.price}
             location={property.location}

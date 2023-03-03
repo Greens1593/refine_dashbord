@@ -41,7 +41,16 @@ const getAllProperties = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-const getPropertyDetail = async (req, res) => {};
+const getPropertyDetail = async (req, res) => {
+  console.log("work");
+  const { id } = req.params;
+  const propertyExist = await Property.findOne({ _id: id }).populate("creator");
+  if (propertyExist) {
+    res.status(200).json(propertyExist);
+  } else {
+    res.status(400).json({ message: "Property not found" });
+  }
+};
 
 const createProperty = async (req, res) => {
   try {

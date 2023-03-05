@@ -11,7 +11,20 @@ import {
   TopAgent
 } from 'components'
 
-const home = () => {
+const Home = () => {
+  const { data, isLoading, isError } = useList({
+    resource: 'properties',
+    config: {
+      pagination: {
+        pageSize: 3
+      }
+    }
+  })
+
+  const latestProperties = data?.data ?? []
+
+  if (isLoading) return <Typography>Loading...</Typography>
+  if (isError) return <Typography>Error</Typography>
   return (
     <Box>
       <Typography
@@ -61,10 +74,38 @@ const home = () => {
         gap={4}
       >
         <TotalRevenue/>
-        <PropertyReferrals/>
+        <PropertyReferrals />
       </Stack>
+        <Box
+          flex={1}
+          borderRadius='15px'
+          bgcolor='#fcfcfc'
+          display='flex'
+          flexDirection='column'
+          minWidth='100%'
+          mt='25px'
+          padding='20px'
+        >
+          <Typography fontSize='18px' fontWeight={600} color='#11142d'>Latest Properties</Typography>
+          <Box mt={2.5} sx={{
+            display: 'flex',
+          justifyContent: 'space-between',
+            flexWrap: 'wrap'
+          }}>
+            {latestProperties.map((property) => (
+              <PropertyCard
+                key={property._id}
+                id={property._id}
+                title={property.title}
+                price={property.price}
+                location={property.location}
+                photo={property.photo}
+              />
+            ))}
+          </Box>
+        </Box>
     </Box>
   )
 }
 
-export default home
+export default Home
